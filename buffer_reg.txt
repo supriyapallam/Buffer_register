@@ -1,0 +1,32 @@
+//Design Code
+module buffer_reg(output reg [3:0]q, input [3:0]d, input clk);
+  always@(posedge clk)
+    begin
+      q <= d;
+    end
+endmodule
+
+//Test Bench Code
+module tb();
+  reg [3:0]d;
+  reg clk;
+  wire [3:0]q;
+  buffer_reg DUT(q,d,clk);
+  initial
+    begin
+      clk=1'b0;
+      forever #5 clk=~clk;
+    end
+  initial
+    begin
+      @(negedge clk) d=4'b1010;
+      @(negedge clk) d=4'b1111;
+      $finish;
+    end
+  initial
+    begin
+      $dumpfile("test.vcd");
+      $dumpvars(1);
+    end
+endmodule
+
